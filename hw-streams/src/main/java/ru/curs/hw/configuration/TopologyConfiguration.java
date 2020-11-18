@@ -49,7 +49,7 @@ public class TopologyConfiguration {
     }
 
     private KTable<String, Long> makeBettorSumTable(KStream<String, Bet> input) {
-        return input.map((k, v) -> KeyValue.pair(v.getBettor(), Math.round(v.getAmount() * v.getOdds())))
+        return input.map((k, v) -> KeyValue.pair(v.getBettor(), v.getAmount()))
                 .groupByKey(Grouped.with(Serdes.String(), Serdes.Long())).reduce(Long::sum, Materialized.with(Serdes.String(), Serdes.Long()));
     }
 
@@ -57,9 +57,9 @@ public class TopologyConfiguration {
         return input.filter((k, v) -> v.getOutcome() != Outcome.D)
                 .map((k, v) -> {
                     if (v.getOutcome() == Outcome.H) {
-                        return KeyValue.pair(k.split("-|:")[0], Math.round(v.getAmount() * v.getOdds()));
+                        return KeyValue.pair(k.split("-|:")[0], v.getAmount());
                     } else {
-                        return KeyValue.pair(k.split("-|:")[1], Math.round(v.getAmount() * v.getOdds()));
+                        return KeyValue.pair(k.split("-|:")[1], v.getAmount());
                     }
                 }).groupByKey(Grouped.with(Serdes.String(), Serdes.Long())).reduce(Long::sum, Materialized.with(Serdes.String(), Serdes.Long()));
     }

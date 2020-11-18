@@ -62,8 +62,8 @@ public class TestTopology {
 
         Assertions.assertEquals("John", record1.key());
         Assertions.assertEquals(10L, record1.value());
-        Assertions.assertEquals(160L, record2.value());
-        Assertions.assertEquals(160L, record3.value());
+        Assertions.assertEquals(110L, record2.value());
+        Assertions.assertEquals(110L, record3.value());
     }
 
     @Test
@@ -74,8 +74,8 @@ public class TestTopology {
         placeBet(new Bet("Sara", "B-T", Outcome.H, 50, 2, 0));
         placeBet(new Bet("John", "A-B", Outcome.A, 0, 1, 0));
 
-        Long[] JohnSum = new Long[]{10L, 160L, 160L};
-        Long[] SaraSum = new Long[]{10L, 110L};
+        Long[] JohnSum = new Long[]{10L, 110L, 110L};
+        Long[] SaraSum = new Long[]{20L, 70L};
 
         for (int i = 0, j = 0, s = 0; i < 5; ++i) {
             TestRecord<String, Long> record = outputGainTopic.readRecord();
@@ -104,7 +104,7 @@ public class TestTopology {
         Assertions.assertEquals("A", record1.key());
         Assertions.assertEquals(10L, record1.value());
         Assertions.assertEquals("A", record2.key());
-        Assertions.assertEquals(160L, record2.value());
+        Assertions.assertEquals(110L, record2.value());
     }
 
     @Test
@@ -115,8 +115,8 @@ public class TestTopology {
         placeBet(new Bet("Sara", "B-T", Outcome.H, 50, 2, 0));
         placeBet(new Bet("John", "A-B", Outcome.H, 0, 1, 0));
 
-        Long[] aSum = new Long[]{150L, 150L};
-        Long[] bSum = new Long[]{10L, 20L, 120L};
+        Long[] aSum = new Long[]{100L, 100L};
+        Long[] bSum = new Long[]{10L, 30L, 80L};
 
         for (int i = 0, a = 0, b = 0; i < 5; ++i) {
             TestRecord<String, Long> record = outputCommandBetTopic.readRecord();
@@ -149,7 +149,7 @@ public class TestTopology {
         Assertions.assertEquals("A", record1.key());
         Assertions.assertEquals(10L, record1.value());
         Assertions.assertEquals("B", record2.key());
-        Assertions.assertEquals(30L, record2.value());
+        Assertions.assertEquals(15L, record2.value());
     }
 
     @Test
